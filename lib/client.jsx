@@ -6,6 +6,7 @@ ReactRouterSSR.Run = function(routes, clientOptions) {
   }
 
   const history = clientOptions.history || ReactRouter.history.useQueries(ReactRouter.history.createHistory)();
+  const provider = clientOptions.provider || null;
 
   Meteor.startup(function() {
     const rootElementName = clientOptions.rootElement || 'react-app';
@@ -19,10 +20,12 @@ ReactRouterSSR.Run = function(routes, clientOptions) {
     }
 
     ReactDOM.render(
+      {provider && <Provider={provider}>}
       <Router
         history={history}
         children={routes}
         {...clientOptions.props} />
+      {provider && </Provider>}
       , rootElement
     );
 
